@@ -1,0 +1,67 @@
+# ====================================================================
+# PYTHON CACHE & COMPILED FILES
+# ====================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# ====================================================================
+# PYTHON VIRTUAL ENVIRONMENTS
+# ====================================================================
+.venv/
+venv/
+env/
+ENV/
+bin/
+lib/
+include/
+pip-selfcheck.json
+
+# ====================================================================
+# SECRET / CONFIGURATION FILES (SENSITIVE DATA)
+# ====================================================================
+.env
+.env.*
+!*.env.example
+
+# ====================================================================
+# LOCAL IDE SETTINGS (VS Code, PyCharm, etc.)
+# ====================================================================
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# ====================================================================
+# OS-SPECIFIC SYSTEM FILES
+# ====================================================================
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# ====================================================================
+# TEMPORARY RUNTIME & APP DIRECTORIES (CREDIT SCORING SPECIALS)
+# ====================================================================
+# Folder temp uploads dan PDF laporan yang di-generate tidak perlu masuk Git
+temp_uploads/
+reports/
+
+# ====================================================================
+# LARGE BINARY MODELS / LARGE DATASETS (OPTIONAL)
+# ====================================================================
+# Jika Anda ingin menyimpan model .pkl di Git, biarkan baris di bawah ini dikomentar.
+# Jika model pkl ingin dikecualikan agar Git tetap ringan, hilangkan tanda komentar (#).
+# *.pkl
+# *.joblib

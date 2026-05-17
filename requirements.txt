@@ -1,0 +1,23 @@
+# FastAPI Core
+fastapi
+uvicorn
+python-multipart
+
+# Database
+sqlalchemy
+psycopg2-binary
+
+# Data Processing & ML
+pandas
+numpy
+scikit-learn
+imbalanced-learn
+joblib
+
+# Pipeline Utilities
+requests
+easyocr
+pypdf
+fpdf2
+pdf2image
+
