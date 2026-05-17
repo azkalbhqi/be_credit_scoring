@@ -49,9 +49,9 @@ def run_ml_scoring(input_dict: dict) -> tuple[int, str, dict]:
     probability = model.predict_proba(input_scaled)[0][1]
     credit_score = int(probability * 1000)
     
-    # 2. Ambil 3 Fitur Paling Berpengaruh untuk Analisis
+    # 2. Ambil 5 Fitur Paling Berpengaruh untuk Analisis
     importances = model.feature_importances_
-    indices = np.argsort(importances)[-3:][::-1] 
+    indices = np.argsort(importances)[-5:][::-1] 
     
     detail_analisis = {}
     for i in indices:

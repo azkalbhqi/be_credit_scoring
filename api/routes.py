@@ -6,7 +6,7 @@ from pipeline.step2_rules import check_hard_rules
 from pipeline.step3_scoring import run_ml_scoring
 from pipeline.step4_rag import generate_action_plan
 from pipeline.step5_report import generate_pdf_report
-from core.database import save_application_record, Base, engine
+from core.database import save_application_record, Base, engine, SessionLocal, CreditApplication
 import os
 import shutil
 
@@ -244,3 +244,19 @@ async def test_step5_db(data: CreditResponse):
     if success:
         return {"status": "SUCCESS", "message": "Successfully saved to database."}
     raise HTTPException(status_code=500, detail="Failed to save record to database.")
+
+@router.get("/applications")
+async def get_applications():
+    """
+    Get all historical credit applications from the database, ordered by latest.
+    """
+    db = SessionLocal()
+    try:
+        records = db.query(CreditApplication).order_by(CreditApplication.created_at.desc()).all()
+        # Convert to serializable format manually or let FastAPI handle it
+        return records
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Database query failed: {str(e)}")
+    finally:
+        db.close()
+
