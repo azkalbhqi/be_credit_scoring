@@ -47,6 +47,7 @@ class RagTestInput(BaseModel):
     credit_score: int
     kategori_risiko: str
     analisis: Dict[str, str]
+    produk: Optional[str] = "KUR"
 
 class ReportTestInput(BaseModel):
     full_name: str

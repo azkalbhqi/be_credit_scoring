@@ -77,7 +77,7 @@ async def process_credit_pipeline(
             
         # 4. Contextual Reasoning Layer (RAG)
         try:
-            narasi, action_plan = generate_action_plan(credit_score, kategori, analisis)
+            narasi, action_plan = generate_action_plan(credit_score, kategori, analisis, produk)
         except Exception as e:
             print(f"RAG Error: {e}")
             narasi = "Gagal mendapatkan narasi dari AI."
@@ -210,7 +210,7 @@ async def test_step4_rag(data: RagTestInput):
     Queries OpenRouter API for credit recommendation narratives and action plan. Falls back gracefully if LLM offline.
     """
     try:
-        narasi, action_plan = generate_action_plan(data.credit_score, data.kategori_risiko, data.analisis)
+        narasi, action_plan = generate_action_plan(data.credit_score, data.kategori_risiko, data.analisis, data.produk)
         return {
             "narasi_rag": narasi,
             "action_plan": action_plan

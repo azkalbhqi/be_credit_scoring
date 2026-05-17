@@ -1,24 +1,73 @@
+import os
 import requests
 import json
+from pypdf import PdfReader
 from core.config import settings
 
-def generate_action_plan(credit_score: int, kategori: str, analisis: dict) -> tuple[str, str]:
+def get_bni_policy_context(produk: str) -> str:
+    """
+    Mengambil kebijakan resmi dari folder pipeline/rag_knowledge berdasarkan nama produk (KUR / KTA).
+    Mendukung file .txt dan .pdf secara dinamis.
+    """
+    knowledge_dir = os.path.join("pipeline", "rag_knowledge")
+    if not os.path.exists(knowledge_dir):
+        return "Ketentuan BNI: KUR membutuhkan survei lapangan (On-The-Spot) & DSR max 40%. KTA membutuhkan konfirmasi kepegawaian HRD & DSR max 35%."
+        
+    context = ""
+    produk_lower = produk.lower()
+    
+    try:
+        for filename in os.listdir(knowledge_dir):
+            filepath = os.path.join(knowledge_dir, filename)
+            if filename.endswith(".txt"):
+                with open(filepath, "r", encoding="utf-8") as f:
+                    text = f.read()
+                    # Filter section yang mengandung keyword produk atau kebijakan umum
+                    sections = text.split("------------------------------------------------------------------------")
+                    for section in sections:
+                        if produk_lower in section.lower() or "prosedur deteksi" in section.lower():
+                            context += section + "\n"
+            elif filename.endswith(".pdf"):
+                reader = PdfReader(filepath)
+                for page in reader.pages:
+                    text = page.extract_text()
+                    if produk_lower in text.lower() or "deteksi" in text.lower():
+                        context += text + "\n"
+    except Exception as e:
+        print(f"Peringatan: Gagal membaca database pengetahuan RAG: {e}")
+        
+    if not context.strip():
+        return "Gunakan ketentuan standar kredit BNI: Lakukan verifikasi identitas, verifikasi pendapatan (DSR), dan survei lapangan jika risiko menengah/tinggi."
+        
+    return context.strip()[:3500] # Batasi panjang teks agar optimal untuk LLM
+
+def generate_action_plan(credit_score: int, kategori: str, analisis: dict, produk: str = "KUR") -> tuple[str, str]:
     """
     Langkah 4: Eksekusi Lapisan 3 (Contextual Reasoning - RAG)
-    Menggunakan Gemini API (gemini-3.1-flash-lite).
+    Mengambil dokumen kebijakan perbankan yang relevan dan menyisipkannya ke prompt Gemini API.
     """
-    print("Mengirim data ke Gemini API untuk mendapatkan rekomendasi RAG...")
+    print(f"Mengambil dokumen kebijakan BNI untuk produk {produk.upper()}...")
+    policy_context = get_bni_policy_context(produk)
+    
+    print("Mengirim data nasabah + regulasi RAG ke Gemini API...")
     
     prompt = f"""
-    Anda adalah seorang analis kredit senior di BNI. 
-    Seorang nasabah baru saja dievaluasi dengan hasil berikut:
+    Anda adalah seorang analis kredit senior di Bank Negara Indonesia (BNI).
+    Tugas Anda adalah mengevaluasi pengajuan kredit nasabah dengan mematuhi Dokumen Kebijakan Resmi BNI di bawah ini secara ketat.
+    
+    === DOKUMEN KEBIJAKAN RESMI BNI (RAG CONTEXT) ===
+    {policy_context}
+    ================================================
+    
+    Hasil Evaluasi Nasabah Saat Ini:
+    - Nama Produk Kredit: BNI {produk.upper()}
     - Credit Score: {credit_score}
     - Kategori Risiko: {kategori}
     - Analisis Fitur (Good/Bad): {json.dumps(analisis)}
     
     Tugas Anda:
-    1. Buatkan narasi singkat (maksimal 3 kalimat) yang menjelaskan alasan utama nasabah mendapatkan skor tersebut berdasarkan Analisis Fitur.
-    2. Berikan "Action Plan" yang konkret (maksimal 3 kalimat) untuk tim analis kredit di lapangan mengenai apa yang harus diperiksa atau dilakukan selanjutnya (misalnya: verifikasi dokumen, cek lapangan, dsb).
+    1. Buatkan narasi singkat (maksimal 3 kalimat) dalam Bahasa Indonesia yang menjelaskan alasan utama nasabah mendapatkan skor tersebut berdasarkan Analisis Fitur dan kecocokannya dengan Kebijakan BNI.
+    2. Berikan "Action Plan" yang konkret (maksimal 3 kalimat) dalam Bahasa Indonesia untuk tim analis kredit di lapangan mengenai apa yang harus diperiksa atau dilakukan selanjutnya sesuai dengan tindakan wajib yang tertulis di Kebijakan BNI (seperti wajib survei lapangan OTS, wawancara tetangga, konfirmasi telepon HRD, atau penanganan Red Flags jika terdeteksi).
     
     Format balasan Anda HARUS HANYA JSON dengan struktur seperti ini (tanpa markdown atau teks tambahan apapun):
     {{
@@ -75,14 +124,20 @@ def generate_action_plan(credit_score: int, kategori: str, analisis: dict) -> tu
         return narasi, action_plan
         
     except Exception as e:
-        print(f"Error calling OpenRouter API: {e}")
+        print(f"Error calling Gemini RAG API: {e}")
         # Fallback manual jika API error
         narasi = f"Nasabah mendapatkan skor {credit_score} (Risiko {kategori}). Analisis menunjukkan fitur utama yang berpengaruh: {analisis}."
         kategori_lower = kategori.lower()
         if "rendah" in kategori_lower or "low" in kategori_lower:
-            action_plan = "Setujui kredit. Lakukan verifikasi standar (SLIK dan KTP). Pastikan dokumen asli sesuai dengan yang diunggah."
+            if "kta" in produk.lower():
+                action_plan = "Setujui kredit Fleksi. Lakukan konfirmasi telepon ke HRD perusahaan tempat bekerja untuk memverifikasi status kepegawaian aktif."
+            else:
+                action_plan = "Setujui kredit KUR. Lakukan verifikasi standar (SLIK dan KTP). Pastikan dokumen asli sesuai dengan yang diunggah."
         elif "menengah" in kategori_lower or "medium" in kategori_lower:
-            action_plan = "Tunda keputusan. Lakukan verifikasi pola transaksi via PACE dan audit karakter 5C secara mendalam melalui kunjungan lapangan."
+            if "kta" in produk.lower():
+                action_plan = "Lakukan verifikasi fisik ke kantor tempat bekerja dan BPJS Ketenagakerjaan nasabah untuk memvalidasi lama bekerja."
+            else:
+                action_plan = "Tunda keputusan. Wajib survei lapangan On-The-Spot ke tempat usaha dan lakukan wawancara dengan minimal 2 tetangga sekitar lokasi usaha."
         else:
             action_plan = "Tolak kredit. Risiko terlalu tinggi berdasarkan profil historis. Minta nasabah memperbaiki kolektibilitas atau memperbesar agunan."
             

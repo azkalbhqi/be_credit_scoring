@@ -1,0 +1,43 @@
+========================================================================
+PANDUAN KEBIJAKAN DAN EVALUASI CREDIT SCORING - BANK NEGARA INDONESIA (BNI)
+========================================================================
+
+Dokumen ini berisi Standard Operating Procedure (SOP) resmi untuk analisis risiko kredit, penetapan tindakan lapangan, dan verifikasi berkas bagi analis kredit BNI untuk produk Kredit Usaha Rakyat (KUR) dan Kredit Tanpa Agunan (KTA / Fleksi).
+
+------------------------------------------------------------------------
+1. KETENTUAN KHUSUS KREDIT USAHA RAKYAT (KUR) BNI
+------------------------------------------------------------------------
+- Batas Maksimum Debt Service Ratio (DSR): 40% dari penghasilan bersih operasional usaha yang terverifikasi.
+- Kriteria BI Checking / Kolektibilitas:
+  * Kolektibilitas 1 (Lancar): Persetujuan standar, verifikasi fisik keaslian berkas agunan.
+  * Kolektibilitas 2 (Dalam Perhatian Khusus): Wajib melampirkan surat keterangan pelunasan (jika ada) dan dilakukan wawancara lapangan mendalam mengenai alasan keterlambatan pembayaran sebelumnya.
+  * Kolektibilitas 3 - 5 (Macet/Diragukan): TOLAK LANGSUNG secara otomatis pada penyaringan Hard Rules.
+- Validasi Lama Usaha: Lama usaha minimal adalah 6 bulan secara berturut-turut yang dibuktikan dengan Surat Keterangan Usaha (SKU) atau NIB (Nomor Induk Berusaha).
+- Ketentuan Agunan Fisik:
+  * Wajib dilakukan pengecekan fisik (fisik tanah/bangunan) untuk mencocokkan Sertifikat Hak Milik (SHM) atau Sertifikat Hak Guna Bangunan (SHGB) dengan peta BPN.
+  * Wajib mengambil foto tempat usaha bersama nasabah sebagai bukti dokumentasi On-The-Spot (OTS).
+- Tindakan Analis Lapangan Berdasarkan Kategori Risiko:
+  * LOW RISK (Risiko Rendah): Lakukan verifikasi standar pada dokumen identitas (KTP) dan keaslian SHM/SHGB. Konfirmasi telepon ke aparat desa/kelurahan setempat jika diperlukan. Tanda tangan akad kredit dapat dijadwalkan segera.
+  * MEDIUM RISK (Risiko Menengah): Wajib survei lapangan On-The-Spot ke tempat usaha. Wajib melakukan wawancara dengan minimal 2 tetangga sekitar lokasi usaha untuk memverifikasi reputasi sosial dan keaktifan usaha harian. Periksa buku mutasi kas/rekening koran 3 bulan terakhir untuk mencocokkan omzet bulanan.
+  * HIGH RISK (Risiko Tinggi): TOLAK pengajuan kredit atau minta penambahan agunan tambahan yang memiliki nilai likuidasi minimal 150% dari plafon kredit. Lakukan kunjungan mendalam jika ada indikasi perbaikan profil usaha di masa mendatang.
+
+------------------------------------------------------------------------
+2. KETENTUAN KHUSUS KREDIT TANPA AGUNAN (KTA / BNI FLEKSI)
+------------------------------------------------------------------------
+- Batas Maksimum Debt Service Ratio (DSR): 35% dari gaji pokok setelah dipotong cicilan berjalan.
+- Status Kepegawaian Nasabah:
+  * Wajib berstatus sebagai Pegawai Aktif (Tetap) dengan masa kerja minimal 1 tahun di instansi/perusahaan mitra BNI.
+  * Dokumen pembuktian: Slip Gaji 3 bulan terakhir ber-barcode atau ditandatangani basah oleh HRD, serta Surat Keputusan (SK) Pengangkatan Pegawai Tetap.
+- Kriteria BI Checking / Kolektibilitas:
+  * Wajib Kolektibilitas 1 (Lancar) pada seluruh fasilitas kredit berjalan di bank lain maupun lembaga keuangan non-bank.
+- Tindakan Analis Lapangan Berdasarkan Kategori Risiko:
+  * LOW RISK (Risiko Rendah): Lakukan konfirmasi telepon ke HRD perusahaan tempat bekerja untuk memverifikasi status kepegawaian aktif dan kebenaran nominal slip gaji. Verifikasi mutasi rekening payroll BNI nasabah.
+  * MEDIUM RISK (Risiko Menengah): Wajib melakukan verifikasi fisik ke kantor tempat bekerja (kunjungan mendadak ke divisi SDM/HRD) jika terdapat kejanggalan dokumen slip gaji. Lakukan pencocokan data BPJS Ketenagakerjaan nasabah untuk memvalidasi lama bekerja.
+  * HIGH RISK (Risiko Tinggi): Penolakan pengajuan kredit secara otomatis jika DSR melebihi 35% atau masa kerja kurang dari 1 tahun. Rekomendasikan pengajuan ulang setelah memenuhi masa bakti minimum pegawai tetap.
+
+------------------------------------------------------------------------
+3. PROSEDUR DETEKSI RED FLAGS & ANOMALI DOKUMEN
+------------------------------------------------------------------------
+- Red Flag 1: Perbedaan data teks yang kontradiktif (misalnya, teks digital menyebutkan lama usaha 5 tahun, namun di lembar dokumen fisik atau analisis tertulis 'lama usaha baru 6 bulan').
+- Red Flag 2: Inkonsistensi perhitungan matematis (misalnya, jumlah nominal gaji pokok ditambah tunjangan tidak sama dengan total penghasilan yang tertera di slip gaji).
+- Tindakan Penyelidikan: Jika ditemukan minimal 1 Red Flag, analis lapangan wajib melakukan verifikasi manual konfirmasi basah ke instansi penerbit dokumen (Kelurahan untuk SKU, Perusahaan untuk Slip Gaji, atau Bank Penerbit untuk Rekening Koran). Keputusan persetujuan kredit harus ditunda hingga temuan kejanggalan tersebut terverifikasi 100% klir.

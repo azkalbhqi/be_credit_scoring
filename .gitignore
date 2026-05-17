@@ -10,6 +10,7 @@ __pycache__/
 .ruff_cache/
 .ipynb_checkpoints/
 
+
 # ====================================================================
 # PYTHON VIRTUAL ENVIRONMENTS
 # ====================================================================
@@ -57,6 +58,7 @@ $RECYCLE.BIN/
 # Folder temp uploads dan PDF laporan yang di-generate tidak perlu masuk Git
 temp_uploads/
 reports/
+
 
 # ====================================================================
 # LARGE BINARY MODELS / LARGE DATASETS (OPTIONAL)
