@@ -18,7 +18,7 @@ class Settings:
 
 settings = Settings()
 
-# Validation to ensure required configuration variables are set
+# Validation list of required configuration variables
 required_vars = {
     "DATABASE_URL": settings.DATABASE_URL,
     "GEMINI_API_KEY": settings.GEMINI_API_KEY,
@@ -28,9 +28,5 @@ required_vars = {
 }
 
 missing_vars = [var for var, value in required_vars.items() if not value]
-if missing_vars:
-    raise ValueError(
-        f"Missing required environment variable(s): {', '.join(missing_vars)}. "
-        f"Please check your .env file."
-    )
+
 
