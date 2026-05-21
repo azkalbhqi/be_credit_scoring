@@ -16,8 +16,7 @@ joblib
 
 # Pipeline Utilities
 requests
-easyocr
 pypdf
 fpdf2
-pdf2image
+
 

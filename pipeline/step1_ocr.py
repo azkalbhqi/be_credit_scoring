@@ -1,40 +1,85 @@
 import re
 from datetime import datetime
 from typing import Dict, Any, List
-import easyocr
 import os
 import json
+import base64
 import requests
 from pypdf import PdfReader
 from core.config import settings
-from pdf2image import convert_from_path
-import tempfile
 
 # =========================================================
-# INIT OCR
-# =========================================================
-
-print("Loading EasyOCR model...")
-reader = easyocr.Reader(['id', 'en'])
-
-
-# =========================================================
-# OCR FUNCTION
+# OCR FUNCTION (Gemini Multimodal OCR)
 # =========================================================
 
 def read_document(file_path: str) -> str:
     """
-    Read text from image using EasyOCR
+    Read text from image or PDF using Gemini API (multimodal OCR)
     """
+    if not file_path or not os.path.exists(file_path):
+        print(f"Error: File path '{file_path}' does not exist.")
+        return ""
+
     try:
-        results = reader.readtext(file_path)
-        extracted_text = " ".join([text[1] for text in results])
+        # Determine MIME type based on file extension
+        file_ext = os.path.splitext(file_path)[1].lower()
+        if file_ext == ".pdf":
+            mime_type = "application/pdf"
+        elif file_ext in [".png", ".jpg", ".jpeg", ".webp"]:
+            mime_type = f"image/{file_ext.replace('.', '')}"
+            if mime_type == "image/jpg":
+                mime_type = "image/jpeg"
+        else:
+            mime_type = "application/octet-stream"
+
+        print(f"Reading document using Gemini API OCR: {os.path.basename(file_path)} ({mime_type})")
+        
+        with open(file_path, "rb") as f:
+            file_bytes = f.read()
+        
+        base64_data = base64.b64encode(file_bytes).decode("utf-8")
+
+        headers = {
+            "Content-Type": "application/json"
+        }
+        
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite:generateContent?key={settings.GEMINI_API_KEY}"
+        
+        data = {
+            "contents": [
+                {
+                    "parts": [
+                        {
+                            "inlineData": {
+                                "mimeType": mime_type,
+                                "data": base64_data
+                            }
+                        },
+                        {
+                            "text": "Extract all text from this document, preserving layout, tables, and details as much as possible."
+                        }
+                    ]
+                }
+            ]
+        }
+
+        response = requests.post(
+            url,
+            headers=headers,
+            json=data,
+            timeout=45
+        )
+        response.raise_for_status()
+        result = response.json()
+        
+        extracted_text = result['candidates'][0]['content']['parts'][0]['text'].strip()
         print(f"\n=== OCR RESULT : {os.path.basename(file_path)} ===")
         print(extracted_text)
         return extracted_text
     except Exception as e:
-        print(f"OCR Error on {file_path}: {e}")
+        print(f"Gemini OCR Error on {file_path}: {e}")
         return ""
+
 
 
 # =========================================================
@@ -97,7 +142,7 @@ def validate_extracted_data(data: Dict[str, Any]) -> List[str]:
 def extract_text_from_pdf(file_path: str) -> str:
     """
     Extracts text from PDF.
-    Uses pypdf for digital text first, falls back to pdf2image + EasyOCR for scanned images.
+    Uses pypdf for digital text first, falls back to Gemini API OCR for scanned images.
     """
     if not file_path or not os.path.exists(file_path):
         print(f"Error: File path '{file_path}' does not exist.")
@@ -116,20 +161,10 @@ def extract_text_from_pdf(file_path: str) -> str:
         if len(text.strip()) < 100:
             print("Digital text extraction is empty or too short. Falling back to Scanned PDF OCR...")
             try:
-                
-                # Convert PDF pages to PNG images
-                pages = convert_from_path(file_path, dpi=150)
-                ocr_text = ""
-                with tempfile.TemporaryDirectory() as temp_dir:
-                    for idx, page in enumerate(pages):
-                        img_path = os.path.join(temp_dir, f"page_{idx}.png")
-                        page.save(img_path, "PNG")
-                        print(f"Running EasyOCR on page {idx+1}...")
-                        page_text = read_document(img_path)
-                        ocr_text += page_text + "\n"
-                return ocr_text
+                # Use Gemini OCR directly on the scanned PDF
+                return read_document(file_path)
             except Exception as ocr_err:
-                print(f"Scanned PDF OCR failed or Poppler/pdf2image not configured: {ocr_err}")
+                print(f"Scanned PDF OCR failed: {ocr_err}")
                 print("Returning digital text extraction fallback (empty/short text).")
                 return text
 
