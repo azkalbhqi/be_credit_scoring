@@ -40,19 +40,17 @@ class CreditApplication(Base):
 # Engine & Session
 # Pastikan DATABASE_URL di config.py sudah benar
 engine = create_engine(settings.DATABASE_URL)
-try:
-    with engine.connect() as connection:
-        pass
-    print("Database: Connected to PostgreSQL/Supabase successfully.")
-except Exception as e:
-    print(f"CRITICAL: Database connection to Supabase failed: {e}")
-    raise e
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():
     """Membuat tabel jika belum ada di PostgreSQL."""
     try:
+        # Check database connectivity first
+        with engine.connect() as connection:
+            pass
+        print("Database: Connected to PostgreSQL/Supabase successfully.")
+        
         Base.metadata.create_all(bind=engine)
         print("Database initialized (tables created).")
         
