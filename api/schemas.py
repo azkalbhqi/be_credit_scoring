@@ -1,5 +1,29 @@
 from pydantic import BaseModel
 from typing import Optional, Dict, Any, List
+from datetime import datetime
+
+class UserCreate(BaseModel):
+    username: str
+    email: str
+    password: str
+    role: str = "staff" # staff, manager
+
+class UserResponse(BaseModel):
+    id: int
+    username: str
+    email: Optional[str] = None
+    role: str
+
+    class Config:
+        from_attributes = True
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
+    role: Optional[str] = None
 
 class CreditInput(BaseModel):
     full_name: str # Nama Lengkap Nasabah
@@ -23,6 +47,8 @@ class CreditInput(BaseModel):
     
 
 class CreditResponse(BaseModel):
+    id: Optional[int] = None
+    created_at: Optional[datetime] = None
     status: str
     credit_score: Optional[int] = None
     kategori_risiko: Optional[str] = None
@@ -33,8 +59,14 @@ class CreditResponse(BaseModel):
     message: Optional[str] = None
     nama_hasil_analisis: Optional[str] = None
     file_pdf: Optional[str] = None
+    screening_file: Optional[str] = None
     ai_summary: Optional[str] = None
     detected_anomalies: Optional[List[str]] = None
+    approval: Optional[str] = "PENDING"
+    approved_by: Optional[str] = None
+
+    class Config:
+        from_attributes = True
 
 class RulesTestInput(BaseModel):
     kolektibilitas_bi: int
@@ -42,6 +74,7 @@ class RulesTestInput(BaseModel):
     lama_usaha_bulan: int
     dsr: float
     gaji: float
+    balance: Optional[float] = 0.0
 
 class RagTestInput(BaseModel):
     credit_score: int

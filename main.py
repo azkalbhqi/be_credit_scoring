@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import router as credit_router
 from pipeline.step3_scoring import load_models
 from core.database import init_db
+from core.supabase_storage import storage_client
 
 app = FastAPI(title="BNI Credit Scoring System - 5 Layer Architecture")
 
@@ -20,6 +21,10 @@ async def startup_event():
     print("Memulai aplikasi...")
     init_db()  # Inisialisasi Tabel Database
     load_models()
+    try:
+        storage_client.init_buckets()  # Inisialisasi Bucket Supabase Storage
+    except Exception as e:
+        print(f"Gagal menginisialisasi bucket Supabase Storage: {e}")
 
 app.include_router(credit_router, tags=["Credit Scoring Pipeline"])
 

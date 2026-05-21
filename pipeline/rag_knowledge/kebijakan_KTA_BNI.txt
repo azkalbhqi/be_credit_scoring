@@ -1,0 +1,26 @@
+------------------------------------------------------------------------
+
+KETENTUAN KHUSUS KREDIT TANPA AGUNAN (KTA / BNI FLEKSI)
+
+------------------------------------------------------------------------
+
+- Batas Maksimum Debt Service Ratio (DSR): 35% dari gaji pokok setelah dipotong cicilan berjalan.
+
+- Status Kepegawaian Nasabah:
+
+  * Wajib berstatus sebagai Pegawai Aktif (Tetap) dengan masa kerja minimal 1 tahun di instansi/perusahaan mitra BNI.
+
+  * Dokumen pembuktian: Slip Gaji 3 bulan terakhir ber-barcode atau ditandatangani basah oleh HRD, serta Surat Keputusan (SK) Pengangkatan Pegawai Tetap.
+
+- Kriteria BI Checking / Kolektibilitas:
+
+  * Wajib Kolektibilitas 1 (Lancar) pada seluruh fasilitas kredit berjalan di bank lain maupun lembaga keuangan non-bank.
+
+- Tindakan Analis Lapangan Berdasarkan Kategori Risiko:
+
+  * LOW RISK (Risiko Rendah): Lakukan konfirmasi telepon ke HRD perusahaan tempat bekerja untuk memverifikasi status kepegawaian aktif dan kebenaran nominal slip gaji. Verifikasi mutasi rekening payroll BNI nasabah.
+
+  * MEDIUM RISK (Risiko Menengah): Wajib melakukan verifikasi fisik ke kantor tempat bekerja (kunjungan mendadak ke divisi SDM/HRD) jika terdapat kejanggalan dokumen slip gaji. Lakukan pencocokan data BPJS Ketenagakerjaan nasabah untuk memvalidasi lama bekerja.
+
+  * HIGH RISK (Risiko Tinggi): Penolakan pengajuan kredit secara otomatis jika DSR melebihi 35% atau masa kerja kurang dari 1 tahun. Rekomendasikan pengajuan ulang setelah memenuhi masa bakti minimum pegawai tetap.
+

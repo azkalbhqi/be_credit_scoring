@@ -51,7 +51,6 @@ Desktop.ini
 desktop.ini
 $RECYCLE.BIN/
 .DS_Store
-core/config.py
 
 # ====================================================================
 # TEMPORARY RUNTIME & APP DIRECTORIES (CREDIT SCORING SPECIALS)

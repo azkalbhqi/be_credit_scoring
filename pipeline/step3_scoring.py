@@ -36,8 +36,7 @@ def run_ml_scoring(input_dict: dict) -> tuple[int, str, dict]:
         if model is None:
             raise Exception("Model Machine Learning belum siap.")
         
-    # Pastikan kita selalu mengirim 16 kolom ke scaler
-    # Isi dengan 0 jika fitur (seperti 'job', 'contact', dll) tidak ada di input
+    
     model_input_list = []
     for col in feature_columns:
         model_input_list.append(input_dict.get(col, 0))
@@ -45,11 +44,11 @@ def run_ml_scoring(input_dict: dict) -> tuple[int, str, dict]:
     input_df = pd.DataFrame([model_input_list], columns=feature_columns)
     input_scaled = scaler.transform(input_df)
     
-    # 1. Hitung Skor
+    # Hitung Skor
     probability = model.predict_proba(input_scaled)[0][1]
     credit_score = int(probability * 1000)
     
-    # 2. Ambil 5 Fitur Paling Berpengaruh untuk Analisis
+    # feature importance 
     importances = model.feature_importances_
     indices = np.argsort(importances)[-5:][::-1] 
     

@@ -22,7 +22,7 @@ Dokumen ini berisi Standard Operating Procedure (SOP) resmi untuk analisis risik
   * HIGH RISK (Risiko Tinggi): TOLAK pengajuan kredit atau minta penambahan agunan tambahan yang memiliki nilai likuidasi minimal 150% dari plafon kredit. Lakukan kunjungan mendalam jika ada indikasi perbaikan profil usaha di masa mendatang.
 
 ------------------------------------------------------------------------
-2. KETENTUAN KHUSUS KREDIT TANPA AGUNAN (KTA / BNI FLEKSI)
+KETENTUAN KHUSUS KREDIT TANPA AGUNAN (KTA / BNI FLEKSI)
 ------------------------------------------------------------------------
 - Batas Maksimum Debt Service Ratio (DSR): 35% dari gaji pokok setelah dipotong cicilan berjalan.
 - Status Kepegawaian Nasabah:
@@ -41,3 +41,17 @@ Dokumen ini berisi Standard Operating Procedure (SOP) resmi untuk analisis risik
 - Red Flag 1: Perbedaan data teks yang kontradiktif (misalnya, teks digital menyebutkan lama usaha 5 tahun, namun di lembar dokumen fisik atau analisis tertulis 'lama usaha baru 6 bulan').
 - Red Flag 2: Inkonsistensi perhitungan matematis (misalnya, jumlah nominal gaji pokok ditambah tunjangan tidak sama dengan total penghasilan yang tertera di slip gaji).
 - Tindakan Penyelidikan: Jika ditemukan minimal 1 Red Flag, analis lapangan wajib melakukan verifikasi manual konfirmasi basah ke instansi penerbit dokumen (Kelurahan untuk SKU, Perusahaan untuk Slip Gaji, atau Bank Penerbit untuk Rekening Koran). Keputusan persetujuan kredit harus ditunda hingga temuan kejanggalan tersebut terverifikasi 100% klir.
+
+------------------------------------------------------------------------
+4. KETENTUAN KHUSUS KREDIT KOMERSIAL BNI
+------------------------------------------------------------------------
+- Batas Maksimum Debt Service Ratio (DSR): 50% dari laba operasional bersih bulanan yang terverifikasi.
+- Lama Usaha Minimal: 24 bulan (2 tahun) secara berturut-turut yang dibuktikan dengan SIUP/NIB dan laporan keuangan.
+- Saldo Rata-rata Rekening Koran: Minimal Rp15.000.000 dalam 3 bulan terakhir.
+- Omzet Bulanan Terverifikasi: Minimal Rp10.000.000 per bulan.
+- Kriteria BI Checking / Kolektibilitas:
+  * Wajib Kolektibilitas 1 (Lancar). Kolektibilitas 2 atau lebih buruk otomatis ditolak pada penyaringan Hard Rules.
+- Tindakan Analis Lapangan Berdasarkan Kategori Risiko:
+  * LOW RISK (Risiko Rendah): Lakukan verifikasi fisik dokumen legalitas (SIUP, NIB, KTP, NPWP) dan kecocokan agunan dengan dokumen SHM/SHGB.
+  * MEDIUM RISK (Risiko Menengah): Wajib kunjungan lapangan On-The-Spot (OTS), wawancara dengan distributor utama atau pembeli terbesar nasabah, serta pengecekan stok/inventori barang.
+  * HIGH RISK (Risiko Tinggi): TOLAK pengajuan kredit atau wajib menyertakan agunan tambahan yang memiliki nilai pasar minimal 180% dari plafon kredit.

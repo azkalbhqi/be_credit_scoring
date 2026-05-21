@@ -22,7 +22,7 @@ def get_bni_policy_context(produk: str) -> str:
             if filename.endswith(".txt"):
                 with open(filepath, "r", encoding="utf-8") as f:
                     text = f.read()
-                    # Filter section yang mengandung keyword produk atau kebijakan umum
+                    # filter
                     sections = text.split("------------------------------------------------------------------------")
                     for section in sections:
                         if produk_lower in section.lower() or "prosedur deteksi" in section.lower():
@@ -34,7 +34,7 @@ def get_bni_policy_context(produk: str) -> str:
                     if produk_lower in text.lower() or "deteksi" in text.lower():
                         context += text + "\n"
     except Exception as e:
-        print(f"Peringatan: Gagal membaca database pengetahuan RAG: {e}")
+        print(f"Peringatan: Gagal membaca pengetahuan RAG: {e}")
         
     if not context.strip():
         return "Gunakan ketentuan standar kredit BNI: Lakukan verifikasi identitas, verifikasi pendapatan (DSR), dan survei lapangan jika risiko menengah/tinggi."
@@ -119,23 +119,27 @@ def generate_action_plan(credit_score: int, kategori: str, analisis: dict, produ
         except json.JSONDecodeError:
             print(f"Warning: Output dari LLM bukan JSON murni. Raw output: {content}")
             narasi = f"Nasabah mendapatkan skor {credit_score} (Risiko {kategori})."
-            action_plan = content # Jadikan seluruh respons sebagai action plan
+            action_plan = content 
             
         return narasi, action_plan
         
     except Exception as e:
         print(f"Error calling Gemini RAG API: {e}")
-        # Fallback manual jika API error
+        # fallback
         narasi = f"Nasabah mendapatkan skor {credit_score} (Risiko {kategori}). Analisis menunjukkan fitur utama yang berpengaruh: {analisis}."
         kategori_lower = kategori.lower()
         if "rendah" in kategori_lower or "low" in kategori_lower:
             if "kta" in produk.lower():
                 action_plan = "Setujui kredit Fleksi. Lakukan konfirmasi telepon ke HRD perusahaan tempat bekerja untuk memverifikasi status kepegawaian aktif."
+            elif "komersial" in produk.lower():
+                action_plan = "Setujui kredit Komersial. Lakukan verifikasi fisik dokumen legalitas bisnis (SIUP/NIB, NPWP) dan keaslian agunan."
             else:
                 action_plan = "Setujui kredit KUR. Lakukan verifikasi standar (SLIK dan KTP). Pastikan dokumen asli sesuai dengan yang diunggah."
         elif "menengah" in kategori_lower or "medium" in kategori_lower:
             if "kta" in produk.lower():
                 action_plan = "Lakukan verifikasi fisik ke kantor tempat bekerja dan BPJS Ketenagakerjaan nasabah untuk memvalidasi lama bekerja."
+            elif "komersial" in produk.lower():
+                action_plan = "Tunda keputusan. Wajib kunjungan lapangan On-The-Spot (OTS) ke tempat usaha, cek stok barang, dan wawancara distributor utama."
             else:
                 action_plan = "Tunda keputusan. Wajib survei lapangan On-The-Spot ke tempat usaha dan lakukan wawancara dengan minimal 2 tetangga sekitar lokasi usaha."
         else:
