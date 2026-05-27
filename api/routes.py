@@ -129,7 +129,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = 
         (User.username == form_data.username) | (User.email == form_data.username)
     ).first()
     if not user or not verify_password(form_data.password, user.hashed_password):
-        raise HTTPException(status_code=400, detail="Username/Email atau password salah.")
+        raise HTTPException(status_code=400, detail="Password/Email salah")
         
     access_token = create_access_token(data={"sub": user.username, "role": user.role})
     return {"access_token": access_token, "token_type": "bearer"}
