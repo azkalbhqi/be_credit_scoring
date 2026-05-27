@@ -51,6 +51,11 @@ def create_access_token(data: dict) -> str:
 
 
 def get_db():
+    if not SessionLocal:
+        raise HTTPException(
+            status_code=500,
+            detail="Database connection is not configured. Please set the DATABASE_URL environment variable."
+        )
     db = SessionLocal()
     try:
         yield db

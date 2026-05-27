@@ -39,12 +39,21 @@ class CreditApplication(Base):
 
 # Engine & Session
 # Pastikan DATABASE_URL di config.py sudah benar
-engine = create_engine(settings.DATABASE_URL)
+engine = None
+SessionLocal = None
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+if settings.DATABASE_URL:
+    try:
+        engine = create_engine(settings.DATABASE_URL)
+        SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    except Exception as e:
+        print(f"Database engine creation failed: {e}")
 
 def init_db():
     """Membuat tabel jika belum ada di PostgreSQL."""
+    if not engine:
+        raise Exception("Database engine is not initialized. Please verify your DATABASE_URL environment variable.")
+
     try:
         # Check database connectivity first
         with engine.connect() as connection:
@@ -83,6 +92,9 @@ def save_application_record(data: dict):
     """
     Simpan riwayat pengajuan ke database PostgreSQL secara nyata.
     """
+    if not SessionLocal:
+        print("Database error: SessionLocal is not initialized. Cannot save record.")
+        return False
     db = SessionLocal()
     try:
         new_record = CreditApplication(

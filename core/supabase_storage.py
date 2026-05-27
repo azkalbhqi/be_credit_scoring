@@ -5,12 +5,12 @@ from core.config import settings
 
 class SupabaseStorageClient:
     def __init__(self):
-        self.url = settings.SUPABASE_URL.rstrip('/')
+        self.url = settings.SUPABASE_URL.rstrip('/') if settings.SUPABASE_URL else None
         self.key = settings.SUPABASE_KEY
         
-        # Log a warning if the key is missing
-        if not self.key:
-            print("WARNING: SUPABASE_KEY is empty. Supabase Storage integration will fail until configured.")
+        # Log a warning if the key or url is missing
+        if not self.url or not self.key:
+            print("WARNING: SUPABASE_URL or SUPABASE_KEY is empty. Supabase Storage integration will fail until configured.")
 
     def get_headers(self, content_type: str = None) -> dict:
         headers = {
@@ -25,8 +25,8 @@ class SupabaseStorageClient:
         Initialize the required buckets: screening_docs and scoring_docs.
         If they already exist, this method handles the conflict gracefully.
         """
-        if not self.key:
-            print("Skipping bucket initialization: SUPABASE_KEY is not set.")
+        if not self.key or not self.url:
+            print("Skipping bucket initialization: SUPABASE_KEY or SUPABASE_URL is not set.")
             return
 
         buckets = ["screening_docs", "scoring_docs"]
@@ -54,8 +54,8 @@ class SupabaseStorageClient:
         Uploads a local file to the specified Supabase Storage bucket.
         Returns the object name/path if successful, otherwise raises Exception.
         """
-        if not self.key:
-            raise Exception("Cannot upload: SUPABASE_KEY is not configured.")
+        if not self.key or not self.url:
+            raise Exception("Cannot upload: SUPABASE_KEY or SUPABASE_URL is not configured.")
 
         if not os.path.exists(local_file_path):
             raise FileNotFoundError(f"Local file not found: {local_file_path}")
@@ -87,8 +87,8 @@ class SupabaseStorageClient:
         """
         Downloads a file from Supabase Storage and returns its bytes.
         """
-        if not self.key:
-            raise Exception("Cannot download: SUPABASE_KEY is not configured.")
+        if not self.key or not self.url:
+            raise Exception("Cannot download: SUPABASE_KEY or SUPABASE_URL is not configured.")
 
         import urllib.parse
         quoted_filename = urllib.parse.quote(filename)
